@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include tech_venture_report_with_particulars *.css
+recursive-include tech_venture_report_with_particulars *.csv
+recursive-include tech_venture_report_with_particulars *.html
+recursive-include tech_venture_report_with_particulars *.ico
+recursive-include tech_venture_report_with_particulars *.js
+recursive-include tech_venture_report_with_particulars *.json
+recursive-include tech_venture_report_with_particulars *.md
+recursive-include tech_venture_report_with_particulars *.png
+recursive-include tech_venture_report_with_particulars *.py
+recursive-include tech_venture_report_with_particulars *.svg
+recursive-include tech_venture_report_with_particulars *.txt
+recursive-exclude tech_venture_report_with_particulars *.pyc
