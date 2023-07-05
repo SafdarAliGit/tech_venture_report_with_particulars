@@ -493,28 +493,60 @@ def get_result_as_list(data, filters):
 def get_sales_invoice_items(result):
     result_with_sales_items = []
     for d in result:
-
+        # CUSTOM
+        if d.voucher_type == 'Journal Entry':
+            words = d.remarks.split()
+            d['voucher_no'] = words[-1]
+            # CUSTOM
         if d.account == ("'Opening'" or 'Opening'):
             d.particular = 'Opening'
         if d.get('voucher_no') and d.get('against'):
-             d.particular = '{0}'.format(d.get('voucher_no'))
-             # d.particular = '{0}, {1}'.format(d.get('voucher_no'), d.get('against'))
-
+            d.particular = '{0}'.format(d.get('voucher_no'))
         description = ""
         if d.get('voucher_type') in ['Sales Invoice', 'Purchase Invoice'] and d.get('voucher_no'):
             table_name = d.get('voucher_type')
             child_table_name = table_name + ' Item'
-
             vouher_items = frappe.db.sql("""
-                                        SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
-                                        FROM `tab{0}` m, `tab{1}` s
-                                        WHERE m.name = s.parent and m.name = '{2}'
-                                        ORDER BY m.name
-                                        """.format(table_name, child_table_name, d.get('voucher_no')), as_dict=1)
-
+                                                                SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
+                                                                FROM `tab{0}` m, `tab{1}` s
+                                                                WHERE m.name = s.parent and m.name = '{2}'
+                                                                ORDER BY m.name
+                                                                """.format(table_name, child_table_name,
+                                                                           d.get('voucher_no')),
+                                         as_dict=1)
             for item in vouher_items:
                 description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
-        d['description'] = description
+            d['description'] = description
+
+        if d.get('voucher_type') == 'Journal Entry' and 'ACC-SINV-' in d.get('voucher_no'):
+            table_name = 'Sales Invoice'
+            child_table_name = table_name + ' Item'
+            vouher_items = frappe.db.sql("""
+                                                                SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
+                                                                FROM `tab{0}` m, `tab{1}` s
+                                                                WHERE m.name = s.parent and m.name = '{2}'
+                                                                ORDER BY m.name
+                                                                """.format(table_name, child_table_name,
+                                                                           d.get('voucher_no')),
+                                         as_dict=1)
+            for item in vouher_items:
+                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+            d['description'] = description
+
+        if d.get('voucher_type') == 'Journal Entry' and 'ACC-PINV-' in d.get('voucher_no'):
+            table_name = 'Purchase Invoice'
+            child_table_name = table_name + ' Item'
+
+            vouher_items = frappe.db.sql("""
+                                                    SELECT s.parent, s.item_name, s.qty, s.rate_per_lbs, s.amount, m.write_off_percentage, m.payment_terms
+                                                    FROM `tab{0}` m, `tab{1}` s
+                                                    WHERE m.name = s.parent and m.name = '{2}'
+                                                    ORDER BY m.name
+                                                    """.format(table_name, child_table_name, d.get('voucher_no')),
+                                         as_dict=1)
+            for item in vouher_items:
+                description += f"{item.item_name}<br> {item.qty}@{item.rate_per_lbs} Com.{item.write_off_percentage}% Terms:{item.payment_terms}<br>"
+            d['description'] = description
         result_with_sales_items.append(d)
 
     return result_with_sales_items
