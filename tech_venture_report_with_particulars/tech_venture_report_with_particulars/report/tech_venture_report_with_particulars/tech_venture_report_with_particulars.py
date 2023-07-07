@@ -556,26 +556,36 @@ def get_sales_invoice_items(result):
             child_table_name = 'Receipt Form Item'
 
             voucher_items = frappe.db.sql("""
-                                                    SELECT s.cheque_no,s.slip_no, s.bank_name, s.amount
+                                                    SELECT s.cheque_no,s.slip_no, s.bank_name,s.mode_of_payment, s.amount
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
                                           as_dict=1)[0]
-
-            description += f"{voucher_items.cheque_no if voucher_items.cheque_no else voucher_items.slip_no}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+            voucher = (
+                voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
+                voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
+                "Cash" if voucher_items.mode_of_payment == 'Cash' else
+                None
+            )
+            description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
             d['description'] = description
 
         if d.get('voucher_type') == 'Payment Entry' and 'PF-' in d.get('voucher_no') and d.get('name_id'):
             child_table_name = 'Receipt Form Item'
 
             voucher_items = frappe.db.sql("""
-                                                    SELECT s.cheque_no,s.slip_no, s.bank_name, s.amount
+                                                    SELECT s.cheque_no,s.slip_no, s.bank_name,s.mode_of_payment, s.amount
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
                                           as_dict=1)[0]
-
-            description += f"{voucher_items.cheque_no if voucher_items.cheque_no else voucher_items.slip_no}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+            voucher = (
+                voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
+                voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
+                "Cash" if voucher_items.mode_of_payment == 'Cash' else
+                None
+            )
+            description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
             d['description'] = description
 
         result_with_sales_items.append(d)
