@@ -12,7 +12,7 @@
 		<tr>
 			<th style="width: 10%">{%= __("Date") %}</th>
 			<th style="width: 15%">{%= __("Particular") %}</th>
-			<th style="width: 10%">{%= __("Qty") %}</th>
+			<th style="width: 10%">{%= __("Description") %}</th>
 			<th style="width: 10%">{%= __("Rate") %}</th>
 			<th style="width: 10%">{%= __("Amount") %}</th>
 			<th style="width: 15%">{%= __("Debit") %}</th>
@@ -39,7 +39,7 @@
 			{% } else { %}
 				<td></td>
 				<td>{%= data[i].particular %}</td>
-				<td>{%= data[i].qty %}</td>
+				<td>{%= data[i].description %}</td>
 				<td>{%= format_currency(data[i].rate, filters.presentation_currency) %}</td>
 				<td>{%= format_currency(data[i].amount, filters.presentation_currency) %}</td>
 				<td style="text-align: right">
@@ -56,3 +56,31 @@
 </table>
 
 <p class="text-right text-muted">Printed On {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %}</p>
+
+<!--<table class="table table-bordered">-->
+<!--	<thead>-->
+<!--		<tr>-->
+<!--			<th style="width: 10%">Date</th>-->
+<!--			<th style="width: 15%">Particular</th>-->
+<!--			<th style="width: 10%">Description</th>-->
+<!--			<th style="width: 10%">Debit</th>-->
+<!--			<th style="width: 10%">Credit</th>-->
+<!--			<th style="width: 10%">Balance</th>-->
+
+<!--		</tr>-->
+<!--	</thead>-->
+<!--	<tbody>-->
+<!--		{% for item in data %}-->
+<!--			<tr>-->
+<!--				<td></td>-->
+<!--				<td>{{ item.particular }}</td>-->
+<!--				<td>{{ item.description }}</td>-->
+<!--				<td>{{ item.account && format_currency(item.debit, filters.presentation_currency)  }}</td>-->
+<!--				<td>{{ item.account && format_currency(item.credit, filters.presentation_currency) }}</td>-->
+<!--				<td>{{ item.balance }}</td>-->
+<!--			</tr>-->
+<!--		{% endfor %}-->
+<!--	</tbody>-->
+<!--</table>-->
+
+<!--<tbody>-->
