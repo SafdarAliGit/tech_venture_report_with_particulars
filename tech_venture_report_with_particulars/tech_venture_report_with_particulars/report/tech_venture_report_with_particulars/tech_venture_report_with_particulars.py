@@ -500,9 +500,12 @@ def get_sales_invoice_items(result):
         if d.voucher_type == 'Journal Entry' and 'PF-' in words[-3]:
             d['voucher_no'] = words[-3]
             d['name_id'] = words[-1]
+        if d.voucher_type == 'Payment Entry' and 'PF-' in words[-1]:
+            d['voucher_no'] = words[-1]
         if d.voucher_type == 'Payment Entry' and 'RF-' in words[-3]:
             d['voucher_no'] = words[-3]
             d['name_id'] = words[-1]
+
 
             # CUSTOM
         if d.account == ("'Opening'" or 'Opening'):
@@ -590,6 +593,12 @@ def get_sales_invoice_items(result):
                 None
             )
             description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+            d['description'] = description
+            d['particular'] = d.get('voucher_no')
+
+        if d.get('voucher_type') == 'Journal Entry' and 'PF-' in d.get('voucher_no') and not d.get('name_id'):
+            voucher = 'Cash'
+            description += f"{voucher}"
             d['description'] = description
             d['particular'] = d.get('voucher_no')
 
