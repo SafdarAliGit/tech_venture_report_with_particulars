@@ -568,15 +568,15 @@ def get_sales_invoice_items(result):
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
-                                          as_dict=1)[0]
+                                          as_dict=1)
             if voucher_items:
                 voucher = (
-                    voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
-                    voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
-                    "Cash" if voucher_items.mode_of_payment == 'Cash' else
+                    voucher_items[0].cheque_no if voucher_items[0].mode_of_payment == 'Cheque' else
+                    voucher_items[0].slip_no if voucher_items[0].mode_of_payment == 'Online Deposit' else
+                    "Cash" if voucher_items[0].mode_of_payment == 'Cash' else
                     None
                 )
-                description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+                description += f"{voucher}/ {voucher_items[0].bank_name}/{voucher_items[0].amount}<br>"
                 d['description'] = description
                 d['particular'] = d.get('voucher_no')
 
@@ -588,15 +588,15 @@ def get_sales_invoice_items(result):
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
-                                          as_dict=1)[0]
+                                          as_dict=1)
             if voucher_items:
                 voucher = (
-                    voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
-                    voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
-                    "Cash" if voucher_items.mode_of_payment == 'Cash' else
+                    voucher_items[0].cheque_no if voucher_items[0].mode_of_payment == 'Cheque' else
+                    voucher_items[0].slip_no if voucher_items[0].mode_of_payment == 'Online Deposit' else
+                    "Cash" if voucher_items[0].mode_of_payment == 'Cash' else
                     None
                 )
-                description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+                description += f"{voucher}/ {voucher_items[0].bank_name}/{voucher_items[0].amount}<br>"
                 d['description'] = description
                 d['particular'] = d.get('voucher_no')
 
