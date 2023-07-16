@@ -568,7 +568,7 @@ def get_sales_invoice_items(result):
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
-                                          as_dict=1)[0]
+                                          as_dict=1)
             voucher = (
                 voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
                 voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
@@ -587,7 +587,7 @@ def get_sales_invoice_items(result):
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
-                                          as_dict=1)[0]
+                                          as_dict=1)
             voucher = (
                 voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
                 voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
