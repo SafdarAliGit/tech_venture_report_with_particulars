@@ -486,26 +486,28 @@ def get_result_as_list(data, filters):
         d["bill_no"] = inv_details.get(d.get("against_voucher"), "")
 
     return data
- # if d.voucher_type == 'Journal Entry' and ('RF-' in d.get('voucher_no') or 'PF-' in d.get('voucher_no')):
+
+
+# if d.voucher_type == 'Journal Entry' and ('RF-' in d.get('voucher_no') or 'PF-' in d.get('voucher_no')):
 
 def get_sales_invoice_items(result):
     result_with_sales_items = []
+    words = []
     for d in result:
         # CUSTOM
         if d.remarks:
             words = d.remarks.split()
-        if d.voucher_type == 'Journal Entry':
-            words = d.remarks.split()
-            d['voucher_no'] = words[-1]
-        if d.voucher_type == 'Journal Entry' and 'PF-' in words[-3]:
-            d['voucher_no'] = words[-3]
-            d['name_id'] = words[-1]
-        if d.voucher_type == 'Payment Entry' and 'PF-' in words[-1]:
-            d['voucher_no'] = words[-1]
-        if d.voucher_type == 'Payment Entry' and 'RF-' in words[-3]:
-            d['voucher_no'] = words[-3]
-            d['name_id'] = words[-1]
-
+            if words:
+                if d.voucher_type == 'Journal Entry':
+                    d['voucher_no'] = words[-1]
+                if d.voucher_type == 'Journal Entry' and 'PF-' in words[-3]:
+                    d['voucher_no'] = words[-3]
+                    d['name_id'] = words[-1]
+                if d.voucher_type == 'Payment Entry' and 'PF-' in words[-1]:
+                    d['voucher_no'] = words[-1]
+                if d.voucher_type == 'Payment Entry' and 'RF-' in words[-3]:
+                    d['voucher_no'] = words[-3]
+                    d['name_id'] = words[-1]
 
             # CUSTOM
         if d.account == ("'Opening'" or 'Opening'):
