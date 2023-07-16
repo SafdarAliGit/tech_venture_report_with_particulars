@@ -568,16 +568,17 @@ def get_sales_invoice_items(result):
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
-                                          as_dict=1)
-            voucher = (
-                voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
-                voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
-                "Cash" if voucher_items.mode_of_payment == 'Cash' else
-                None
-            )
-            description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
-            d['description'] = description
-            d['particular'] = d.get('voucher_no')
+                                          as_dict=1)[0]
+            if voucher_items:
+                voucher = (
+                    voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
+                    voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
+                    "Cash" if voucher_items.mode_of_payment == 'Cash' else
+                    None
+                )
+                description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+                d['description'] = description
+                d['particular'] = d.get('voucher_no')
 
         if d.get('voucher_type') == 'Journal Entry' and 'PF-' in d.get('voucher_no') and d.get('name_id'):
             child_table_name = 'Receipt Form Item'
@@ -587,16 +588,17 @@ def get_sales_invoice_items(result):
                                                     FROM `tab{0}` s
                                                     WHERE s.name_id = '{1}'
                                                     """.format(child_table_name, d.get('name_id')),
-                                          as_dict=1)
-            voucher = (
-                voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
-                voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
-                "Cash" if voucher_items.mode_of_payment == 'Cash' else
-                None
-            )
-            description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
-            d['description'] = description
-            d['particular'] = d.get('voucher_no')
+                                          as_dict=1)[0]
+            if voucher_items:
+                voucher = (
+                    voucher_items.cheque_no if voucher_items.mode_of_payment == 'Cheque' else
+                    voucher_items.slip_no if voucher_items.mode_of_payment == 'Online Deposit' else
+                    "Cash" if voucher_items.mode_of_payment == 'Cash' else
+                    None
+                )
+                description += f"{voucher}/ {voucher_items.bank_name}/{voucher_items.amount}<br>"
+                d['description'] = description
+                d['particular'] = d.get('voucher_no')
 
         if d.get('voucher_type') == 'Journal Entry' and 'PF-' in d.get('voucher_no') and not d.get('name_id'):
             voucher = 'Cash'
