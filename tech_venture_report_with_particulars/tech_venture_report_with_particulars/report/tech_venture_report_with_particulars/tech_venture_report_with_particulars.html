@@ -57,30 +57,4 @@
 
 <p class="text-right text-muted">Printed On {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %}</p>
 
-<!--<table class="table table-bordered">-->
-<!--	<thead>-->
-<!--		<tr>-->
-<!--			<th style="width: 10%">Date</th>-->
-<!--			<th style="width: 15%">Particular</th>-->
-<!--			<th style="width: 10%">Description</th>-->
-<!--			<th style="width: 10%">Debit</th>-->
-<!--			<th style="width: 10%">Credit</th>-->
-<!--			<th style="width: 10%">Balance</th>-->
 
-<!--		</tr>-->
-<!--	</thead>-->
-<!--	<tbody>-->
-<!--		{% for item in data %}-->
-<!--			<tr>-->
-<!--				<td></td>-->
-<!--				<td>{{ item.particular }}</td>-->
-<!--				<td>{{ item.description }}</td>-->
-<!--				<td>{{ item.account && format_currency(item.debit, filters.presentation_currency)  }}</td>-->
-<!--				<td>{{ item.account && format_currency(item.credit, filters.presentation_currency) }}</td>-->
-<!--				<td>{{ item.balance }}</td>-->
-<!--			</tr>-->
-<!--		{% endfor %}-->
-<!--	</tbody>-->
-<!--</table>-->
-
-<!--<tbody>-->
